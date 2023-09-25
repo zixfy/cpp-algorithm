@@ -38,6 +38,7 @@ public:
             std::swap(pa, pb);
         _parents[pb] = pa;
         _sizes[pb] += _sizes[pa];
+        --_rank;
         return true;
     }
 };

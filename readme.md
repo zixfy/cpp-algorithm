@@ -32,6 +32,6 @@
 
 - [ ] 伸展树(Splay)
 
-- [ ] [并查集(UnionFind)](templates/union_find.hpp)
+- [x] [并查集(UnionFind)](templates/union_find.hpp)
 
 - [ ] LFU
