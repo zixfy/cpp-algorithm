@@ -6,11 +6,11 @@
 一些数据结构在`C++`的模板实现
 
 **TODO:**
-- [x] [AA树](AA_treeset.hpp)
+- [x] [AA树](templates/AA_treeset.hpp)
 
-- [x] [树状数组(Binary Index Tree)](binary_index_tree.hpp)
+- [x] [树状数组(Binary Index Tree)](templates/binary_index_tree.hpp)
 
-- [x] [左偏红黑树(Left Leaning RBT)](left_leaning_red_black_treeset.hpp)
+- [x] [左偏红黑树(Left Leaning RBT)](templates/left_leaning_red_black_treeset.hpp)
 
 - [ ] 渐进式散列表(rehash in Redis)
 
@@ -18,9 +18,11 @@
 
 - [ ] LinkedHashset
 
-- [x] [跳表(Skiplist)](skiplist.hpp)
+- [x] [跳表(Skiplist)](templates/skiplist.hpp)
 
 - [ ] B+树
+
+- [ ] 字典树(Trie)
 
 - [ ] LRU
 
@@ -30,6 +32,6 @@
 
 - [ ] 伸展树(Splay)
 
-- [ ] 并查集(UnionFind)
+- [ ] [并查集(UnionFind)](templates/union_find.hpp)
 
 - [ ] LFU
