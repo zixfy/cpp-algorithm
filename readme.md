@@ -13,7 +13,7 @@
 - [x] [树状数组(Binary Index Tree)](data-structure/binary_index_tree.hpp)
 - [x] [左偏红黑树(Left Leaning RBT)](data-structure/left_leaning_red_black_treeset.hpp)
 - [ ] 渐进式散列表(rehash in Redis)
-- [ ] 二叉堆
+- [x] [优先队列(二叉堆)](), [priority_queue.hpp](data-structure/priority_queue.hpp)
 - [ ] LinkedHashset
 - [x] [跳表(Skiplist)](data-structure/skiplist.hpp)
 - [ ] B+树
@@ -28,7 +28,7 @@
 
 **搜索**
 
-- [ ] 快速排序
+- [x] [快速排序](https://zhuanlan.zhihu.com/p/659147057), [quick_sort.hpp](search/quick_sort.hpp)
 - [ ] A*
 
 **几何**
@@ -47,3 +47,4 @@
 **杂项**
 
 + [x] [信号量(Semaphore)](util/semaphore.hpp)
+

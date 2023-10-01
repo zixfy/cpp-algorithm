@@ -1,8 +1,7 @@
 #ifndef CPP_ALGORITHM_UTIL_SEMAPHORE_HPP
 #define CPP_ALGORITHM_UTIL_SEMAPHORE_HPP
 #include <condition_variable>
-#include <mutex>
-namespace my::sync {
+#include <mutex> 
 class Semaphore {
 private:
   size_t m_cnt;
@@ -21,6 +20,5 @@ public:
     m_cv.wait(lg, [this] { return m_cnt > 0; });
     --m_cnt;
   }
-};
-}
+}; 
 #endif //CPP_ALGORITHM_UTIL_SEMAPHORE_HPP

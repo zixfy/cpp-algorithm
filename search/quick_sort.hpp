@@ -5,23 +5,33 @@
 #ifndef CPP_ADVANCED_CONTAINER_TEMPLATE_QUICK_SORT_HPP
 #define CPP_ADVANCED_CONTAINER_TEMPLATE_QUICK_SORT_HPP
 #include <random>
-template <typename Iter, typename RandomEngineT = std::mt19937>
-void quick_sort(Iter left, Iter right) {
+template <typename Iter, typename Compare = std::less<typename Iter::value_type>, typename RandomEngineT = std::mt19937>
+void quick_sort(Iter left, Iter right, Compare cmp = {}) {
     static std::random_device rd{};
     static RandomEngineT rng{rd()};
     auto length = std::distance(left, right);
     if (length < 2)
         return;
-    // [l, r)
-    auto base = *(left + rng() % length);
-    auto iter1 = left, iter2 = right - 1;
+    if (length <= 10)
+    {
+        for (auto i = left; i != right; ++i)
+            for (auto j = i + 1; j != right; ++j)
+                if (cmp(*j, *i))
+                    std::swap(*i, *j);
+        return;
+    }
+    // [left, right)
+    std::swap(*(left + rng() % length), *left);
+    auto& base = *left;
+    auto iter1 = left + 1, iter2 = right - 1;
+    // [left, iter1), (iter2, right)
     while (iter1 <= iter2) {
-        if (*iter1 < base || (*iter1 == base && std::distance(left, iter1) < std::distance(iter2, right)))
+        if (cmp(*iter1, base) || (!cmp(base, *iter1) && std::distance(left, iter1) < std::distance(iter2 + 1, right)))
             ++iter1;
         else
             std::swap(*iter1, *(iter2--));
     }
-    quick_sort(left, iter1);
-    quick_sort(iter2 + 1, right);
+    quick_sort(left, iter1, cmp);
+    quick_sort(iter2 + 1, right, cmp);
 }
 #endif //CPP_ADVANCED_CONTAINER_TEMPLATE_QUICK_SORT_HPP
