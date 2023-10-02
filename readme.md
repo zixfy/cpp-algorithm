@@ -3,7 +3,7 @@
 [![Static Badge](https://img.shields.io/badge/license-MIT-blue?logo=git&logoColor=%20)]() [![Static Badge](https://img.shields.io/badge/C%2B%2B-17-green?logo=cplusplus&logoColor=blue)]() [![Static Badge](https://img.shields.io/badge/cmake-3.22%2B-green?logo=cmake&logoColor=deepskyblue)]() [![Static Badge](https://img.shields.io/badge/compiler-x86%20MSVC%2019.29%2B-green?logo=compilerexplorer)]() 
 
 ---
-一些算法/数据结构在`C++`的模板实现
+一些算法/数据结构在现代`C++`的模板实现
 
 **TODO:**
 
@@ -13,7 +13,7 @@
 - [x] [树状数组(Binary Index Tree)](data-structure/binary_index_tree.hpp)
 - [x] [左偏红黑树(Left Leaning RBT)](data-structure/left_leaning_red_black_treeset.hpp)
 - [ ] 渐进式散列表(rehash in Redis)
-- [x] [优先队列(二叉堆)](), [priority_queue.hpp](data-structure/priority_queue.hpp)
+- [x] [优先队列(二叉堆)](https://zhuanlan.zhihu.com/p/659218897), [priority_queue.hpp](data-structure/priority_queue.hpp)
 - [ ] LinkedHashset
 - [x] [跳表(Skiplist)](data-structure/skiplist.hpp)
 - [ ] B+树
@@ -37,14 +37,20 @@
 
 **图论**
 
-- [ ] Tarjan缩点
+- [ ] 强连通分量(Tarjan)
 
 **数论**
 
 - [ ] 乘法逆元
 - [ ] 欧拉素数筛
 
+**函数式编程**
+
+- [x] 柯里化(curry), [curry.hpp](functional/curry.hpp)
+- [x] 函数组合，[compose.hpp](functional/compose.hpp)
+
 **杂项**
 
 + [x] [信号量(Semaphore)](util/semaphore.hpp)
++ [x] [属性(properties)](https://zhuanlan.zhihu.com/p/659323767),[getter_setter.hpp](design/getter_setter.hpp) 
 
