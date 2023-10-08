@@ -1,6 +1,6 @@
 ###  Algorithms and Data structures in C++
 
-[![Static Badge](https://img.shields.io/badge/license-MIT-blue?logo=git&logoColor=%20)]() [![Static Badge](https://img.shields.io/badge/C%2B%2B-17-green?logo=cplusplus&logoColor=blue)]() [![Static Badge](https://img.shields.io/badge/cmake-3.22%2B-green?logo=cmake&logoColor=deepskyblue)]() [![Static Badge](https://img.shields.io/badge/compiler-x86%20MSVC%2019.29%2B-green?logo=compilerexplorer)]() 
+[![Static Badge](https://img.shields.io/badge/license-MIT-blue?logo=git&logoColor=%20)]() [![Static Badge](https://img.shields.io/badge/C%2B%2B-20-green?logo=cplusplus&logoColor=blue)]() [![Static Badge](https://img.shields.io/badge/cmake-3.22%2B-green?logo=cmake&logoColor=deepskyblue)]() [![Static Badge](https://img.shields.io/badge/compiler-x86%20MSVC%2019.29%2B-green?logo=compilerexplorer)]() 
 
 ---
 一些算法/数据结构在现代`C++`的模板实现
@@ -33,10 +33,9 @@
 
 **几何**
 
-+ [ ] 凸包
-
+- [ ] 凸包  
 **图论**
-
+- [ ] 最小生成树
 - [ ] 强连通分量(Tarjan)
 
 **数论**
@@ -44,8 +43,12 @@
 - [ ] 乘法逆元
 - [ ] 欧拉素数筛
 
-**函数式编程**
+**泛型**
 
+- [x] [具名元组(namedtuple)](https://zhuanlan.zhihu.com/p/659506997), [named_tuple.hpp](template/named_tuple.hpp)
+- [ ] 变长模板参数(TypeList)
+- [ ] 匿名结构体
+- [ ] 扩展方法
 - [x] 柯里化(curry), [curry.hpp](functional/curry.hpp)
 - [x] 函数组合，[compose.hpp](functional/compose.hpp)
 
