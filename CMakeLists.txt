@@ -9,5 +9,6 @@ file(GLOB test_src "./test/*.cpp")
 foreach(source ${test_src})
     message(STATUS "using test file: ${source}")
     get_filename_component(filename ${source} NAME)
-    add_executable(${filename} ${source})
+    add_executable(${filename} ${source}
+            main.cpp)
 endforeach()

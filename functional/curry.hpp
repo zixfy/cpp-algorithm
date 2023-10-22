@@ -5,33 +5,34 @@
 #ifndef CPP_ALGORITHM_CURRY_HPP
 #define CPP_ALGORITHM_CURRY_HPP
 
-#include <iostream>
 #include <functional>
+#include <iostream>
 #include <string>
 
 namespace {
-    namespace detail {
-        template<typename Return, typename Arg>
-        auto curry_impl(std::function<Return(Arg)> f) {
-            return f;
-        }
-
-        template<typename Return, typename Arg, typename... Args>
-        auto curry_impl(std::function<Return(Arg, Args...)> f) {
-            return [f](Arg &&arg) {
-                return curry_impl(std::function([&f, &arg](Args &&... args) {
-                    return f(std::forward<Arg>(arg), std::forward<Args>(args)...);
-                }));
-            };
-        }
-    } // namespace detail
+template <typename Return, typename Arg, typename... Args>
+auto _curry_combine(std::function<Return(Arg, Args...)> original) {
+  if constexpr (sizeof...(Args) == 0)
+    return original;
+  else
+    return [f = std::move(original)](Arg &&arg) {
+      return _curry_combine(std::function([&f, &arg](Args &&...args) {
+        return f(std::forward<Arg>(arg), std::forward<Args>(args)...);
+      }));
+    };
+}
 } // namespace
-template<typename RetT, typename... ArgsT>
-auto Curry = [](std::function<RetT(ArgsT...)> func) {
-    if constexpr (sizeof...(ArgsT) < 2)
-        return func;
-    else
-        return detail::curry_impl<RetT, ArgsT...>(func);
+template <typename RetT, typename... ArgsT>
+auto Curry(std::function<RetT(ArgsT...)> func) {
+  if constexpr (sizeof...(ArgsT) < 2)
+    return func;
+  else
+    return _curry_combine<RetT, ArgsT...>(std::move(func));
 };
 
-#endif //CPP_ALGORITHM_CURRY_HPP
+template <typename FuncLike>
+auto Curry(FuncLike&& func) {
+  return Curry(std::function{std::forward<FuncLike>(func)});
+};
+
+#endif // CPP_ALGORITHM_CURRY_HPP

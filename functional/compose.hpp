@@ -1,85 +1,94 @@
-//
-// Created by wwww on 2023/10/1.
-//
-
 #ifndef CPP_ALGORITHM_COMPOSE_HPP
 #define CPP_ALGORITHM_COMPOSE_HPP
 #include <functional>
-#include <tuple>
-#include <utility>
-namespace {
-template <std::size_t Index, typename... Func>
-decltype(auto) compose_impl(std::tuple<Func...> &funcs) {
-  if constexpr (Index + 1 == sizeof...(Func))
-    return std::get<Index>(funcs);
-  else
-    return [&funcs, follow_func = compose_impl<Index + 1, Func...>(funcs)](
-               auto &&...args) -> decltype(auto) {
-      using ReturnT = std::invoke_result_t<decltype(std::get<Index>(funcs)),
-                                           decltype(args)...>;
-      if constexpr (std::is_void_v<ReturnT>) {
-        std::get<Index>(funcs)(std::forward<decltype(args)>(args)...);
-        return follow_func();
-      } else
-        return follow_func(
-            std::get<Index>(funcs)(std::forward<decltype(args)>(args)...));
-    };
+#include <type_traits>
+
+struct None {};
+template <typename Arg, typename Func>
+decltype(auto) operator|(Arg &&a, Func f) {
+  using Ret = std::invoke_result_t<Func, decltype(a)>;
+  if constexpr (std::is_void_v<Ret>) {
+    f(a);
+    return None{};
+  } else
+    return f(a);
 }
-template <typename... Func> struct Composer {
-  std::tuple<Func...> funcs;
-  using ComposedT = decltype(compose_impl<0, Func...>(funcs));
-  ComposedT composed;
+template <typename Func> decltype(auto) operator|(None, Func f) {
+  using Ret = std::invoke_result_t<Func>;
+  if constexpr (std::is_void_v<Ret>) {
+    f();
+    return None{};
+  } else
+    return f();
+}
+
+template <typename ...Func> struct Compose {
+private:
+  using FuncChain = std::tuple<Func...>;
+  FuncChain funcs;
+  template <std::size_t... Indexes, typename... ArgT>
+  decltype(auto) _invoke(FuncChain &funcs,
+                         std::integer_sequence<std::size_t, Indexes...>,
+                         ArgT &&...args) {
+    return (std::get<0>(funcs)(std::forward<ArgT>(args)...) | ... |
+            std::get<Indexes + 1>(funcs));
+  };
+
+public:
   template <typename... FuncRef>
-  explicit Composer(FuncRef &&...f)
-      : funcs{std::forward<FuncRef>(f)...},
-        composed{compose_impl<0, Func...>(funcs)} {}
+  explicit Compose(FuncRef &&...f) : funcs{std::forward<FuncRef>(f)...} {};
   template <typename... ArgT> decltype(auto) operator()(ArgT &&...args) {
-    return composed(std::forward<ArgT>(args)...);
+    return _invoke(funcs, std::make_index_sequence<sizeof...(Func) - 1>{},
+                   std::forward<ArgT>(args)...);
   }
 };
-}; // namespace
+template <typename... FuncRef>
+Compose(FuncRef...) -> Compose<std::remove_reference_t<FuncRef>...>;
 
-auto Compose = [](auto &&first_func, auto &&...other_func) -> decltype(auto) {
-  if constexpr (sizeof...(other_func) == 0)
-    return std::forward<decltype(first_func)>(first_func);
-  else
-    return Composer<std::remove_reference_t<decltype(first_func)>,
-                    std::remove_reference_t<decltype(other_func)>...>(
-        std::forward<decltype(first_func)>(first_func),
-        std::forward<decltype(other_func)>(other_func)...);
-};
 #endif // CPP_ALGORITHM_COMPOSE_HPP
 
-// using namespace std;
-// struct A {
-//   string name{"nihao"};
-// };
-// int main() {
-//   A a;
-//   std::function get_ref_to_my_name = [&]() -> string & { return a.name; };
-//   std::function then_modify_it = [&](string &s) -> void {
-//     s = "goodbye";
-//     cout << "A::name set.\n";
-//   };
-//   std::function and_print = [&]() -> void {
-//     cout << "A::name == \"" << a.name << "\" now\n";
-//   };
-//   auto &&action1 = Compose(get_ref_to_my_name, then_modify_it, and_print);
-//   action1();
-//   // output:
-//   // A::name set.
-//   // A::name == "goodbye" now
+// Another Recursive Implementation
+
+
+//#ifndef CPP_ALGORITHM_COMPOSE_HPP
+//#define CPP_ALGORITHM_COMPOSE_HPP
 //
-//   auto f1 = [](int a, int b) { return a + b; };
-//   auto &&meaningless = Compose(f1);
-//   // meaningless is lvalue reference to f1
-//   static_assert(std::is_lvalue_reference_v<decltype(meaningless)>);
+//#include <functional>
+//#include <iostream>
+//#include <string>
+//#include <tuple>
+//#include <utility>
+//template <typename... Func> struct Compose {
+//private:
+//  using FuncChain = std::tuple<Func...>;
+//  FuncChain funcs;
 //
-//   auto f2 = [](int x) -> double { return x * 1.16666666666666; };
-//   auto &&action2 = Compose(
-//       Compose(f1, f2), [](auto x) { return "Result: " + std::to_string(x);
-//       });
-//   cout << action2(-3, 5);
-//   // output:
-//   // Result: 2.333333
-// }
+//  template <std::size_t Index, typename... ArgT>
+//  decltype(auto) _invoke(FuncChain &funcs, ArgT &&...args) {
+//    if constexpr (Index + 1 == sizeof...(Func))
+//      return std::get<Index>(funcs)(std::forward<ArgT>(args)...);
+//    else {
+//      using CurrentResT = std::invoke_result_t<
+//          std::remove_reference_t<decltype(std::get<Index>(funcs))>, ArgT...>;
+//      if constexpr (!std::is_void_v<CurrentResT>)
+//        return _invoke<Index + 1, CurrentResT>(
+//            funcs, std::get<Index>(funcs)(std::forward<ArgT>(args)...));
+//      else {
+//        std::get<Index>(funcs)(std::forward<ArgT>(args)...);
+//        return _invoke<Index + 1>(funcs);
+//      }
+//    }
+//  }
+//
+//public:
+//  template <typename... FuncRef>
+//  explicit Compose(FuncRef &&...f) : funcs{std::forward<FuncRef>(f)...} {};
+//
+//  template <typename... ArgT> decltype(auto) operator()(ArgT &&...args) {
+//    return _invoke<0, ArgT...>(funcs, std::forward<ArgT>(args)...);
+//  }
+//};
+//template <typename... FuncRef>
+//Compose(FuncRef...) -> Compose<std::remove_reference_t<FuncRef>...>;
+//
+//#endif // CPP_ALGORITHM_COMPOSE_HPP
