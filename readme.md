@@ -19,7 +19,7 @@
 - [ ] B+树
 - [ ] 字典树(Trie)
 - [ ] LRU
-- [ ] 线段树(SegmentTree)
+- [x] 线段树(SegmentTree), [segment_tree.hpp](data-structure/segment_tree.hpp), [dynamic_segment_tree.hpp](data-structure/dynamic_segment_tree.hpp)
 - [ ] 稀疏表(SparseTable)
 - [ ] 伸展树(Splay)
 - [x] [并查集(UnionFind)](data-structure/union_find.hpp)
@@ -34,6 +34,7 @@
 **几何**
 
 - [ ] 凸包  
+
 **图论**
 - [ ] 最小生成树
 - [ ] 强连通分量(Tarjan)
@@ -49,8 +50,9 @@
 - [ ] 变长模板参数(TypeList)
 - [ ] 匿名结构体
 - [ ] 扩展方法
-- [x] 柯里化(curry), [curry.hpp](functional/curry.hpp)
-- [x] 函数组合，[compose.hpp](functional/compose.hpp)
+- [x] [柯里化(currying)](https://zhuanlan.zhihu.com/p/662698843), [curry.hpp](functional/curry.hpp)
+- [x] [函数组合(compose)](https://zhuanlan.zhihu.com/p/662698843)，[compose.hpp](functional/compose.hpp)
+- [x] 打印STL容器，[container_printer.hpp](util/container_printer.hpp)
 
 **杂项**
 

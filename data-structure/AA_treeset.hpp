@@ -151,7 +151,6 @@ private:
             _split(current);
             _split(current->right);
         }
-
     }
 
     bool _erase(Node *&current, const Key &key) {

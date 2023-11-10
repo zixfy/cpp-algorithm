@@ -5,6 +5,7 @@
 #ifndef CPP_ALGORITHM_RANGE_HPP
 #define CPP_ALGORITHM_RANGE_HPP
 #include <type_traits>
+#include <concepts>
 template <typename T>
 concept TraitCanBeRanged = requires(T a, T b) {
   requires std::is_default_constructible_v<T>;

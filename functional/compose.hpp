@@ -69,7 +69,7 @@ Compose(FuncRef...) -> Compose<std::remove_reference_t<FuncRef>...>;
 //      return std::get<Index>(funcs)(std::forward<ArgT>(args)...);
 //    else {
 //      using CurrentResT = std::invoke_result_t<
-//          std::remove_reference_t<decltype(std::get<Index>(funcs))>, ArgT...>;
+//          std::remove_reference_t<decltype(std::get<Index>(funcs))>, ArgT&&...>;
 //      if constexpr (!std::is_void_v<CurrentResT>)
 //        return _invoke<Index + 1, CurrentResT>(
 //            funcs, std::get<Index>(funcs)(std::forward<ArgT>(args)...));
