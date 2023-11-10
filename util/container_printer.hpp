@@ -150,5 +150,5 @@ std::ostream &operator<<(std::ostream &os, Container const &container) {
     }
   return os << ']';
 };
-
+} // namespace DebugPrint
 #endif // CPP_ALGORITHM_CONTAINER_PRINTER_HPP
