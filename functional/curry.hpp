@@ -16,7 +16,7 @@ auto _curry_combine(std::function<Return(Arg, Args...)> original) {
     return original;
   else
     return [f = std::move(original)](Arg &&arg) {
-      return _curry_combine(std::function([&f, &arg](Args &&...args) {
+      return _curry_combine(std::function([&f, &arg](Args &&...args) -> decltype(auto){
         return f(std::forward<Arg>(arg), std::forward<Args>(args)...);
       }));
     };
